@@ -75,51 +75,45 @@ public class RedActivity extends ActionBarActivity {
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
 
-        // 10.0.2.2 is the host machine when running the android emulator
-        final StringRequest afterLoginRequest = new StringRequest(Request.Method.GET, "https://10.0.2.2:8443/2019w-project4-login-example/api/username",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+//        // 10.0.2.2 is the host machine when running the android emulator
+//        final StringRequest afterLoginRequest = new StringRequest(Request.Method.GET, "https://10.0.2.2:8443/project1/api/login",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        Log.d("username.reponse", response);
+//                        ((TextView) findViewById(R.id.http_response)).setText(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // error
+//                        Log.d("username.error", error.toString());
+//                    }
+//                }
+//        );
 
-                        Log.d("username.reponse", response);
-                        ((TextView) findViewById(R.id.http_response)).setText(response);
-                    }
+
+        final StringRequest loginRequest = new StringRequest(Request.Method.POST, "https://10.0.2.2:8443/project1/api/login",
+                response -> {
+                    Log.d("login.success", response);
+                    ((TextView) findViewById(R.id.http_response)).setText(response);
+                    // Add the request to the RequestQueue.
+                   // queue.add(afterLoginRequest);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("username.error", error.toString());
-                    }
-                }
-        );
-
-
-        final StringRequest loginRequest = new StringRequest(Request.Method.POST, "https://10.0.2.2:8443/2019w-project4-login-example/api/login",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Log.d("login.success", response);
-                        ((TextView) findViewById(R.id.http_response)).setText(response);
-                        // Add the request to the RequestQueue.
-                        queue.add(afterLoginRequest);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("login.error", error.toString());
-                    }
+                error -> {
+                    // error
+                    Log.d("login.error", error.toString());
                 }
         ) {
             @Override
             protected Map<String, String> getParams() {
                 // Post request form data
                 final Map<String, String> params = new HashMap<String, String>();
-                params.put("username", "anteater");
-                params.put("password", "123456");
+                params.put("username", "a@email.com");
+                params.put("password", "a2");
+                params.put("type", "customers");
 
                 return params;
             }
